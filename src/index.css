@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Super Cell City Design System - Dark Theme Mobile Shop */
+
+@layer base {
+  :root {
+    /* Dark theme base colors */
+    --background: 240 10% 8%;
+    --foreground: 210 15% 95%;
+
+    /* Card and surface colors */
+    --card: 240 8% 12%;
+    --card-foreground: 210 15% 95%;
+
+    /* Interactive elements */
+    --popover: 240 8% 14%;
+    --popover-foreground: 210 15% 95%;
+
+    /* Brand colors - Electric blue theme */
+    --primary: 200 95% 55%;
+    --primary-foreground: 240 10% 8%;
+    --primary-glow: 200 85% 65%;
+
+    /* Secondary colors */
+    --secondary: 240 8% 18%;
+    --secondary-foreground: 210 15% 85%;
+
+    /* Muted colors */
+    --muted: 240 8% 16%;
+    --muted-foreground: 210 8% 60%;
+
+    /* Accent colors */
+    --accent: 240 8% 20%;
+    --accent-foreground: 210 15% 90%;
+
+    /* Status colors */
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 210 15% 95%;
+    --success: 140 55% 50%;
+    --warning: 45 90% 60%;
+
+    /* Form elements */
+    --border: 240 8% 25%;
+    --input: 240 8% 18%;
+    --ring: 200 95% 55%;
+
+    /* Shop specific colors */
+    --price: 140 55% 50%;
+    --discount: 0 65% 55%;
+    --rating: 45 90% 60%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(200 95% 55%), hsl(200 85% 65%));
+    --gradient-card: linear-gradient(145deg, hsl(240 8% 12%), hsl(240 8% 14%));
+    --gradient-hero: linear-gradient(135deg, hsl(240 10% 8%), hsl(240 8% 12%));
+
+    /* Shadows and effects */
+    --shadow-card: 0 4px 20px -2px hsl(240 10% 3% / 0.4);
+    --shadow-glow: 0 0 30px hsl(200 95% 55% / 0.3);
+    --shadow-product: 0 8px 32px -4px hsl(240 10% 3% / 0.5);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-medium;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  /* Mobile Shop specific component styles */
+  .shop-card {
+    @apply bg-card border border-border rounded-xl shadow-lg;
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-smooth);
+  }
+
+  .shop-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-product);
+  }
+
+  .price-text {
+    @apply font-bold;
+    color: hsl(var(--price));
+  }
+
+  .discount-text {
+    @apply line-through text-sm;
+    color: hsl(var(--discount));
+  }
+
+  .rating-stars {
+    color: hsl(var(--rating));
+  }
+
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+@media (min-width: 768px) { /* md and up */
+  @keyframes typing {
+    0% { width: 0; }
+    20% { width: 11ch; }   /* "Super Cell" length */
+    40% { width: 16ch; }   /* "Super Cell City" total */
+    80% { width: 16ch; }   /* pause before delete */
+    100% { width: 0; }     /* delete everything */
+  }
+
+  .typing-effect {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: typing 13s steps(16, end) infinite both;
+  }
+}
+
+.logotext {
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
