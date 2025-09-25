@@ -1,5 +1,5 @@
-import { Outlet, useLocation, Link } from "react-router-dom";
-import { useState } from "react";
+import { Outlet, Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -19,15 +19,30 @@ import {
   Menu,
   X,
   Bell,
-  Settings,
   LogOut,
   Home,
   ChevronDown,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const location = useLocation();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
+  useEffect(() => {
+    if (!token) {
+      toast.error("You are not authorized to access this page");
+      navigate("/login");
+      return;
+    }
+
+    if (role !== "admin") {
+      toast.error("Only admins can access this page");
+      navigate("/login");
+    }
+  }, [token, role, navigate]);
 
   const navigation = [
     { name: "Dashboard", href: "/admin", icon: BarChart3 },
@@ -43,18 +58,17 @@ const AdminLayout = () => {
       {/* Sidebar Backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 lg:hidden bg-background/80 backdrop-blur-sm"
+          className="hidden md:fixed inset-0 z-40 lg:hidden bg-background/80 backdrop-blur-sm"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`hidden md:block fixed inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
-        <div className="flex flex-col h-full">
+        <div className="hidden md:flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center justify-between h-16 px-6 border-b border-border">
             <Link to="/" className="flex items-center space-x-2">
@@ -81,11 +95,10 @@ const AdminLayout = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    isActive(item.href)
-                      ? "bg-green-700 text-white"
-                      : "text-muted-foreground hover:text-foreground hover:bg-green-100 hover:text-black"
-                  }`}
+                  className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${isActive(item.href)
+                    ? ""
+                    : "text-muted-foreground  hover:bg-green-100 hover:text-black"
+                    }`}
                   onClick={() => setSidebarOpen(false)}
                 >
                   <Icon className="mr-3 h-5 w-5" />
@@ -111,7 +124,7 @@ const AdminLayout = () => {
       {/* Main Content */}
       <div className="flex flex-col flex-1 lg:pl-64 min-h-screen">
         {/* Header */}
-        <header className="bg-card border-b border-border sticky top-0 z-30">
+        <header className="hidden md:block bg-card border-b border-border sticky top-0 z-30">
           <div className="flex items-center justify-between h-16 px-4 sm:px-6">
             <div className="flex items-center">
               <Button
@@ -162,17 +175,17 @@ const AdminLayout = () => {
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Home className="mr-2 h-4 w-4" />
-                    View Store
+                    <button className="flex items-center gap-1" onClick={() => navigate("/")}>
+                      <Home className="mr-2 h-4 w-4" />
+                      View Store
+                    </button>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="text-destructive">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Log out
+                    <button className="flex items-center gap-1" onClick={() => { localStorage.removeItem("token"), navigate("/login") }}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Log out
+                    </button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -181,9 +194,13 @@ const AdminLayout = () => {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto bg-background p-6">
+        <main className="hidden md:block flex-1 overflow-y-auto bg-background p-6">
           <Outlet />
         </main>
+        {/* Mobile Error */}
+        <div className="md:hidden flex-1 flex items-center justify-center">
+          <p className=" text-center text-muted-foreground ">Please use a larger screen to view this page...</p>
+        </div>
       </div>
     </div>
   );

@@ -38,15 +38,6 @@ const Register = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-hero py-12 px-4">
       <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center space-x-2">
-            <div className="bg-green-400 p-3 rounded-xl">
-              <Smartphone className="h-8 w-8 text-primary-foreground" />
-            </div>
-            <span className="text-2xl font-bold text-foreground">Super Cell City</span>
-          </Link>
-        </div>
 
         {/* Register Card */}
         <Card className="shop-card border-0 shadow-product">

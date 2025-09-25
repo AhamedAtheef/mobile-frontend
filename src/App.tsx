@@ -15,18 +15,20 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import AdminLayout from "./components/admin/AdminLayout";
 import Dashboard from "./pages/admin/dashboard";
-
 import AdminOrders from "./pages/admin/orders";
 import AdminMobiles from "./pages/admin/mobiles";
 import NotFound from "./pages/notfound";
-import { Toaster } from "./components/ui/toaster";
+import { Toaster } from "react-hot-toast";
+
+import Users from "./pages/admin/users";
+
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
+      <Toaster position="top-right"/>
       <BrowserRouter>
         <Routes>
           {/* User Routes */}
@@ -48,7 +50,7 @@ const App = () => (
           {/* Admin Routes */}
           <Route path="admin" element={<AdminLayout />}>
             <Route index element={<Dashboard/>} />
-            <Route path="users" element={<h1>User</h1>} />
+            <Route path="users" element={<Users/>} />
             <Route path="mobiles" element={<AdminMobiles />} />
             <Route path="orders" element={<AdminOrders />} />
           </Route>

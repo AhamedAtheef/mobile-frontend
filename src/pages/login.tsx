@@ -7,18 +7,40 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkoutbox";
 import { Separator } from "@/components/ui/seporator";
 import { Smartphone, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
+    setLoading(true);
+
     console.log("Login attempt:", { email, password, rememberMe });
+
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, { email, password })
+      .then((res) => {
+
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("role", res.data.role);
+        console.log(res.data);
+        toast.success(res.data.message);
+        setLoading(false);
+        if (res.data.role === "admin") window.location.href = "/admin";
+        else window.location.href = "/";
+      })
+      .catch((err) => {
+        console.error("Login error:", err);
+        setLoading(false);
+      });
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-hero py-12 px-4">
@@ -41,7 +63,7 @@ const Login = () => {
               Sign in to your account to continue shopping
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-6">
               {/* Email Field */}
@@ -88,8 +110,8 @@ const Login = () => {
               {/* Remember Me & Forgot Password */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2 ">
-                  <Checkbox 
-                    id="remember" 
+                  <Checkbox
+                    id="remember"
                     checked={rememberMe}
                     onCheckedChange={(checked) => setRememberMe(checked === true)}
                   />
@@ -97,8 +119,8 @@ const Login = () => {
                     Remember me
                   </Label>
                 </div>
-                <Link 
-                  to="/forgot-password" 
+                <Link
+                  to="/forgot-password"
                   className="text-sm text-primary hover:text-primary/80 transition-colors"
                 >
                   Forgot password?
@@ -106,13 +128,13 @@ const Login = () => {
               </div>
 
               {/* Login Button */}
-              <Button 
-                type="submit" 
-                className="w-full bg-green-500 hover:bg-green-400 " 
-                variant="cart" 
+              <Button
+                type="submit"
+                className="w-full bg-green-500 hover:bg-green-400 "
+                variant="cart"
                 size="lg"
               >
-                Sign In
+                Login
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </form>
@@ -158,8 +180,8 @@ const Login = () => {
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{" "}
-                <Link 
-                  to="/register" 
+                <Link
+                  to="/register"
                   className="text-primary hover:text-primary/80 font-medium transition-colors"
                 >
                   Sign up here
@@ -171,8 +193,8 @@ const Login = () => {
 
         {/* Additional Links */}
         <div className="mt-8 text-center space-y-2">
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             ← Back to Home

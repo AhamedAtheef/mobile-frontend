@@ -9,9 +9,9 @@ const Home = () => {
     {
       id: 1,
       name: "iPhone 15 Pro Max",
-      price: 1199,
-      originalPrice: 1299,
-      image: "/api/placeholder/300/400",
+      price: 250000,
+      originalPrice: 280000,
+      image: "/i phone.jpg",
       rating: 4.8,
       reviews: 2847,
       badge: "Bestseller",
@@ -19,9 +19,9 @@ const Home = () => {
     {
       id: 2,
       name: "Samsung Galaxy S24 Ultra",
-      price: 1099,
-      originalPrice: 1199,
-      image: "/api/placeholder/300/400",
+      price: 120000,
+      originalPrice: 150000,
+      image: "/samsung.jpg",
       rating: 4.7,
       reviews: 1925,
       badge: "New Arrival",
@@ -29,9 +29,9 @@ const Home = () => {
     {
       id: 3,
       name: "Google Pixel 8 Pro",
-      price: 899,
-      originalPrice: 999,
-      image: "/api/placeholder/300/400",
+      price: 130000,
+      originalPrice: 160000,
+      image: "/pixel.jpg",
       rating: 4.6,
       reviews: 1456,
       badge: "AI Camera",
@@ -72,7 +72,7 @@ const Home = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative hero-gradient py-20 px-4 overflow-hidden">
-        {/* Background Video (md and up only) */}
+        {/* Background Video */}
         <video
           className="hidden md:block absolute inset-0 w-full h-full object-cover"
           autoPlay
@@ -82,7 +82,7 @@ const Home = () => {
           src="/bgvedio.mp4"
         />
 
-        {/* Overlay for readability */}
+        {/* Overlay */}
         <div className="absolute inset-0 bg-black/40 md:bg-black/50"></div>
 
         {/* Hero Content */}
@@ -119,13 +119,12 @@ const Home = () => {
         </div>
       </section>
 
-
       {/* Features Section */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="shop-card text-center border-0">
+              <Card key={index} className="shop-card text-center border-0 card-pop">
                 <CardContent className="pt-8">
                   <div className="bg-[#71df67] p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                     <feature.icon className="h-8 w-8 text-primary-foreground" />
@@ -148,7 +147,7 @@ const Home = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {categories.map((category, index) => (
-              <Card key={index} className="shop-card cursor-pointer group border-0">
+              <Card key={index} className="shop-card cursor-pointer group border-0 card-pop">
                 <CardContent className="p-6 text-center">
                   <div className={`${category.color} p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform`}>
                     <category.icon className="h-8 w-8 text-white" />
@@ -171,14 +170,14 @@ const Home = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredMobiles.map((mobile) => (
-              <Card key={mobile.id} className="shop-card border-0 overflow-hidden group">
+              <Card key={mobile.id} className="shop-card border-0 overflow-hidden group card-pop">
                 <div className="relative">
                   <img
                     src={mobile.image}
                     alt={mobile.name}
                     className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <Badge className="absolute top-4 left-4  cursor-pointer hover-bg-green-500 text-primary-foreground">
+                  <Badge className="absolute top-4 left-4 cursor-pointer hover-bg-green-500 text-primary-foreground">
                     {mobile.badge}
                   </Badge>
                 </div>
@@ -188,7 +187,7 @@ const Home = () => {
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`h-4 w-4 ${i < Math.floor(mobile.rating) ? 'fill-rating text-rating' : 'text-muted-foreground'}`}
+                          className={`h-4 w-4 ${i < Math.floor(mobile.rating) ? "fill-rating text-rating" : "text-muted-foreground"}`}
                         />
                       ))}
                     </div>
@@ -196,14 +195,9 @@ const Home = () => {
                   </div>
                   <h3 className="text-lg font-semibold text-foreground mb-2">{mobile.name}</h3>
                   <div className="flex items-center space-x-2 mb-4">
-                    <span className="text-2xl font-bold price-text">${mobile.price}</span>
+                    <span className="text-2xl font-bold price-text">RS.{mobile.price}</span>
                     <span className="discount-text">${mobile.originalPrice}</span>
                   </div>
-                  <Link to={`/mobiles/${mobile.id}`}>
-                    <Button className="w-full bg-[#4be43d] hover:bg-[#35c54dd8]" variant="cart">
-                      View Details
-                    </Button>
-                  </Link>
                 </CardContent>
               </Card>
             ))}

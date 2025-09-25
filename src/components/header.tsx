@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { Smartphone, Menu, X, ShoppingCart, User, Search } from "lucide-react";
+import { Smartphone, Menu, X, ShoppingCart, User, Search, LogIn } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,11 +19,11 @@ const Header = () => {
 
   return (
     <header className="bg-transparent sticky top-0 z-50 backdrop-blur-sm">
-      <div className="container mx-auto px-1 xl:px-4 ">
-        <div className="flex items-center justify-between h-16">
+      <div className="container mx-auto px-1 xl:px-0 ">
+        <div className="flex items-center justify-between  h-16">
           {/* Logo */}
           <Link to="/" className="flex md:items-center ">
-            <img src="/logo.png" alt="" className="w-[180px] md:w-[220px] lg:w-[230px] xl:w-[260px] mt-[5px]" />
+            <img src="/logo.png" alt="" className="w-[180px] md:w-[220px] lg:w-[230px]  xl:w-[260px] mt-[5px]" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -58,6 +58,11 @@ const Header = () => {
             <Link to="/profile">
               <Button variant="ghost" size="icon">
                 <User className="h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to="login">
+              <Button variant="ghost" size="icon">
+                <LogIn className="h-5 w-5" />
               </Button>
             </Link>
           </div>
