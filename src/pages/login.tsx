@@ -30,13 +30,14 @@ const Login = () => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("role", res.data.role);
         console.log(res.data);
-        toast.success(res.data.message);
+        toast.success("Login successful!");
         setLoading(false);
         if (res.data.role === "admin") window.location.href = "/admin";
         else window.location.href = "/";
       })
       .catch((err) => {
         console.error("Login error:", err);
+        toast.error(err.response.data.message);
         setLoading(false);
       });
   };
@@ -120,7 +121,7 @@ const Login = () => {
                   </Label>
                 </div>
                 <Link
-                  to="/forgot-password"
+                  to="/reset-password"
                   className="text-sm text-primary hover:text-primary/80 transition-colors"
                 >
                   Forgot password?

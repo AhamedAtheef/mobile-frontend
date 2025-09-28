@@ -13,8 +13,10 @@ import {
   Star,
   CheckCircle
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const About = () => {
+  const navigate =useNavigate();
   const stats = [
     { icon: Users, number: "50,000+", label: "Happy Customers" },
     { icon: Smartphone, number: "10,000+", label: "Products Sold" },
@@ -49,19 +51,19 @@ const About = () => {
     {
       name: "Sarah Johnson",
       role: "CEO & Founder",
-      image: "/api/placeholder/150/150",
+      image: "/sara.jpg",
       bio: "Passionate about technology and customer service with 10+ years in mobile retail."
     },
     {
       name: "Mike Chen",
       role: "Head of Operations",
-      image: "/api/placeholder/150/150",
+      image: "/mic.png",
       bio: "Ensures smooth operations and quality control across all our processes."
     },
     {
-      name: "Emily Rodriguez",
+      name: "Roy Smith",
       role: "Customer Success Manager",
-      image: "/api/placeholder/150/150",
+      image: "/ceo.png",
       bio: "Dedicated to providing exceptional customer experiences and support."
     },
   ];
@@ -100,10 +102,10 @@ const About = () => {
       <section className="hero-gradient py-20 px-4">
         <div className="container mx-auto text-center">
           <div className="max-w-4xl mx-auto space-y-8">
-            <Badge className="bg-primary/10 text-[15px] lg:text-[20px] text-[#25e425] hover:bg-primary/20">
+            <Badge className="bg-primary/10 text-[15px] lg:text-[20px] text-[#25e425] hover:bg-primary/20 card-pop">
               About Super Cell City
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground">
+            <h1 className="text-4xl md:text-6xl font-bold text-foreground slide-in">
               Connecting You to the 
               <span className="bg-[linear-gradient(to_right,#8de21f,#25e425)] bg-clip-text text-transparent"> Future</span>
             </h1>
@@ -120,7 +122,7 @@ const About = () => {
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <Card key={index} className="shop-card text-center border-0">
+              <Card key={index} className="shop-card text-center border-0 card-pop">
                 <CardContent className="pt-8">
                   <div className="bg-green-500 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                     <stat.icon className="h-8 w-8 text-primary-foreground" />
@@ -162,7 +164,7 @@ const About = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
-              <Card key={index} className="shop-card border-0 text-center h-full">
+              <Card key={index} className="shop-card border-0 text-center h-full card-pop">
                 <CardContent className="p-6">
                   <div className="bg-primary/10 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                     <value.icon className="h-8 w-8 text-[#10d68ae0]" />
@@ -178,7 +180,7 @@ const About = () => {
 
       {/* Timeline */}
       <section className="py-16 px-4">
-        <div className="container mx-auto">
+        <div className="container mx-auto card-pop">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Our Journey</h2>
             <p className="text-lg text-muted-foreground">Key milestones in our growth story</p>
@@ -213,7 +215,7 @@ const About = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {team.map((member, index) => (
-              <Card key={index} className="shop-card border-0 text-center">
+              <Card key={index} className="shop-card border-0 text-center card-pop">
                 <CardContent className="p-6">
                   <img 
                     src={member.image} 
@@ -241,7 +243,7 @@ const About = () => {
               Join thousands of satisfied customers who trust Super Cell City for their mobile needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="cart" className="text-lg px-8 bg-green-400">
+              <Button size="lg" variant="cart" className="text-lg px-8 bg-green-400" onClick={() => navigate("/mobiles")}>
                 Shop Now
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>

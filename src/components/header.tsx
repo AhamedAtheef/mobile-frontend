@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { Smartphone, Menu, X, ShoppingCart, User, Search, LogIn } from "lucide-react";
+import { Smartphone, Menu, X, ShoppingCart, User, Search, LogIn, Box } from "lucide-react";
+import { getCart } from "@/utils/cart";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const cartItemsCount = 3; // This would come from a cart context in a real app
+  const [cartItemsCount, setCartItemsCount] = useState(0);
 
+  useEffect(() => {
+    // Load initial
+    setCartItemsCount(getCart().length);
+
+    // Listen for cart updates
+    const handleCartUpdate = () => setCartItemsCount(getCart().length);
+    window.addEventListener("cartUpdated", handleCartUpdate);
+
+    return () => window.removeEventListener("cartUpdated", handleCartUpdate);
+  }, []);
+
+  const cart = getCart();
   const navigation = [
     { name: "Home", href: "/" },
     { name: "Mobiles", href: "/mobiles" },
@@ -42,9 +55,6 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" size="icon">
-              <Search className="h-5 w-5" />
-            </Button>
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingCart className="h-5 w-5" />
@@ -60,7 +70,13 @@ const Header = () => {
                 <User className="h-5 w-5" />
               </Button>
             </Link>
-            <Link to="login">
+            <Link to="/orders">
+              <Button variant="ghost" size="icon">
+                <Box className="h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to="login"
+              onClick={() => localStorage.removeItem("token")}>
               <Button variant="ghost" size="icon">
                 <LogIn className="h-5 w-5" />
               </Button>
@@ -108,6 +124,12 @@ const Header = () => {
                 <Button variant="ghost" size="sm">
                   <User className="h-4 w-4 mr-2" />
                   Profile
+                </Button>
+              </Link>
+              <Link to="/orders" onClick={() => setIsMenuOpen(false)}>
+                <Button variant="ghost" size="sm">
+                  <Box className="h-4 w-4 mr-2" />
+                  Orders
                 </Button>
               </Link>
             </div>

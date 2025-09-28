@@ -129,7 +129,7 @@ const Mobiles = () => {
                 <img
                   src={Array.isArray(mobile.image) ? mobile.image[0] : mobile.image}
                   alt={mobile.title}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-48 md:h-[260px] object-center  group-hover:scale-105 transition-transform duration-300"
                 />
                 <Button
                   variant="ghost"
@@ -146,7 +146,7 @@ const Mobiles = () => {
                   </h3>
                 </div>
 
-                <div className="flex items-center space-x-2 mb-4">
+                <div className="flex items-center justify-between space-x-2 mb-4">
                   <span className="text-lg font-bold price-text">
                     Rs.{mobile.price}
                   </span>

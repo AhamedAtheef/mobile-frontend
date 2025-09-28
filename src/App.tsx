@@ -21,6 +21,7 @@ import NotFound from "./pages/notfound";
 import { Toaster } from "react-hot-toast";
 
 import Users from "./pages/admin/users";
+import ForgotPassword from "./pages/resetpassword";
 
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
           {/* Auth Routes */}
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="reset-password" element={<ForgotPassword />} />
           
           {/* Admin Routes */}
           <Route path="admin" element={<AdminLayout />}>
