@@ -9,7 +9,7 @@ import {
   Trash2, Plus, Minus, ShoppingBag, ArrowRight,
   Tag, Shield, Truck, Heart
 } from "lucide-react";
-import { getCart,saveCart } from "@/utils/cart";
+import { getCart, saveCart } from "@/utils/cart";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState(getCart());
@@ -75,39 +75,41 @@ const Cart = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Shopping Cart</h1>
-          <p className="text-muted-foreground">
+        <div className="mb-6 sm:mb-8 text-center sm:text-left">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-1 sm:mb-2">
+            Shopping Cart
+          </h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             {cartItems.length} item{cartItems.length !== 1 ? "s" : ""} in your cart
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
           {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 space-y-3 sm:space-y-4">
             {cartItems.map((item) => (
               <Card key={item.productid} className="shop-card border-0">
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-4">
+                <CardContent className="p-4 sm:p-6 w-full">
+                  <div className="flex flex-col sm:flex-row items-start sm:space-x-4 space-y-3 sm:space-y-0">
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-24 h-24 object-cover rounded-lg"
+                      className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg mx-auto sm:mx-0"
                     />
-                    <div className="flex-1">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <p className="text-sm text-muted-foreground">{item.category}</p>
-                          <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
-                          <div className="flex items-center space-x-2 mt-1">
-                            <span className="text-xl font-bold price-text">Rs {item.price}</span>
+                    <div className="flex-1 w-full">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
+                        <div className="text-center sm:text-left">
+                          <p className="text-xs sm:text-sm text-muted-foreground">{item.category}</p>
+                          <h3 className="text-base sm:text-lg font-semibold text-foreground">{item.title}</h3>
+                          <div className="flex flex-wrap items-center justify-center sm:justify-start space-x-2 mt-1">
+                            <span className="text-lg sm:text-xl font-bold price-text">Rs {item.price}</span>
                             {item.originalPrice && item.originalPrice > item.price && (
                               <>
                                 <span className="discount-text">Rs {item.originalPrice}</span>
-                                <Badge variant="secondary" className="bg-success/10 text-success">
+                                <Badge variant="secondary" className="bg-success/10 text-success text-xs sm:text-sm">
                                   {Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)}% OFF
                                 </Badge>
                               </>
@@ -116,56 +118,59 @@ const Cart = () => {
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between mt-4">
+                      {/* Quantity + Actions */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-3 sm:mt-4 space-y-3 sm:space-y-0">
                         {/* Quantity */}
-                        <div className="flex items-center space-x-3">
-                          <span className="text-sm font-medium">Qty:</span>
+                        <div className="flex items-center justify-center sm:justify-start space-x-2 sm:space-x-3">
+                          <span className="text-xs sm:text-sm font-medium">Qty:</span>
                           <div className="flex items-center border border-border rounded-lg">
                             <Button
                               variant="ghost"
                               size="icon"
                               onClick={() => updateQuantity(item.productid, -1)}
                               disabled={item.quantity <= 1}
-                              className="h-8 w-8"
+                              className="h-7 w-7 sm:h-8 sm:w-8"
                             >
-                              <Minus className="h-4 w-4" />
+                              <Minus className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
-                            <span className="px-3 py-1 min-w-12 text-center">{item.quantity}</span>
+                            <span className="px-2 sm:px-3 py-1 min-w-10 sm:min-w-12 text-center text-sm sm:text-base">
+                              {item.quantity}
+                            </span>
                             <Button
                               variant="ghost"
                               size="icon"
                               onClick={() => updateQuantity(item.productid, 1)}
-                              className="h-8 w-8"
+                              className="h-7 w-7 sm:h-8 sm:w-8"
                             >
-                              <Plus className="h-4 w-4" />
+                              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                             </Button>
                           </div>
                         </div>
 
                         {/* Actions */}
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center justify-center sm:justify-end">
                           <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => removeItem(item.productid)}
-                            className="text-destructive hover:text-destructive"
+                            className="text-destructive hover:text-destructive text-xs sm:text-sm"
                           >
-                            <Trash2 className="h-4 w-4 mr-1" />
+                            <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                             Remove
                           </Button>
                         </div>
                       </div>
 
                       {/* Stock */}
-                      <div className="mt-3">
+                      <div className="mt-2 sm:mt-3 text-center sm:text-left">
                         {item.stock > 0 ? (
-                          <div className="flex items-center text-success text-sm">
-                            <Shield className="h-4 w-4 mr-1" />
+                          <div className="flex items-center justify-center sm:justify-start text-success text-xs sm:text-sm">
+                            <Shield className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                             In Stock - Ships within 24 hours
                           </div>
                         ) : (
-                          <div className="flex items-center text-destructive text-sm">
-                            <Shield className="h-4 w-4 mr-1" />
+                          <div className="flex items-center justify-center sm:justify-start text-destructive text-xs sm:text-sm">
+                            <Shield className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                             Out of Stock
                           </div>
                         )}
@@ -177,20 +182,22 @@ const Cart = () => {
             ))}
 
             {/* Continue Shopping */}
-            <div className="mt-6">
+            <div className="mt-4 sm:mt-6 text-center sm:text-left">
               <Link to="/mobiles">
-                <Button variant="outline">Continue Shopping</Button>
+                <Button variant="outline" size="sm" className="px-4 sm:px-6">
+                  Continue Shopping
+                </Button>
               </Link>
             </div>
           </div>
 
-          {/* Summary */}
+          {/* Summary (no big change, just padding/font tweak) */}
           <div className="lg:col-span-1">
-            <Card className="shop-card border-0 sticky top-4">
-              <CardHeader>
-                <CardTitle>Order Summary</CardTitle>
+            <Card className="shop-card border-0 sticky top-2 sm:top-4">
+              <CardHeader className="px-4 sm:px-6 py-3 sm:py-4">
+                <CardTitle className="text-lg sm:text-xl">Order Summary</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4 px-4 sm:px-6 py-3 sm:py-4">
                 {/* Promo */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Promo Code</label>
@@ -266,7 +273,7 @@ const Cart = () => {
                 )}
 
                 <Link to="/checkout">
-                  <Button size="lg" variant="cart" className="w-full bg-[#65e47a]">
+                  <Button size="lg" variant="cart" className="mt-[10%] md:mt-[5%] w-full bg-[#65e47a]">
                     Proceed to Checkout
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
@@ -282,6 +289,7 @@ const Cart = () => {
         </div>
       </div>
     </div>
+
   );
 };
 

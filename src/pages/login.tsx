@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/inputs";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkoutbox";
 import { Separator } from "@/components/ui/seporator";
+import { useGoogleLogin, TokenResponse } from "@react-oauth/google";
 import { Smartphone, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -16,6 +17,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +44,39 @@ const Login = () => {
       });
   };
 
+  const googleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse: TokenResponse) => {
+      setLoading(true);
+
+      axios
+        .post<{ token: string; message: string }>(
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/google-login`,
+          { token: tokenResponse.access_token }
+        )
+        .then((res) => {
+          console.log("tokenResponse:", tokenResponse);
+          localStorage.setItem("token", res.data.token);
+
+          if (res.data.message === "Not Saved") {
+            toast.error("Failed To Create An Account");
+            setLoading(false);
+            return;
+          }
+
+          toast.success("login success");
+          navigate("/");
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error("Can't Create An Account and Try Again ");
+          setLoading(false);
+        });
+    },
+    onError: (error: unknown) => {
+      console.error("Login Failed:", error);
+    },
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-hero py-12 px-4">
@@ -154,7 +189,8 @@ const Login = () => {
 
             {/* Social Login */}
             <div className="grid grid-cols-1 gap-3">
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full"
+              onClick={() => googleLogin()}>
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                   <path
                     fill="currentColor"

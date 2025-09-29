@@ -19,48 +19,52 @@ import AdminOrders from "./pages/admin/orders";
 import AdminMobiles from "./pages/admin/mobiles";
 import NotFound from "./pages/notfound";
 import { Toaster } from "react-hot-toast";
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import Users from "./pages/admin/users";
 import ForgotPassword from "./pages/resetpassword";
 
 
 const queryClient = new QueryClient();
+const client_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
+const client_SECRET = import.meta.env.VITE_GOOGLE_SECRET
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster position="top-right"/>
-      <BrowserRouter>
-        <Routes>
-          {/* User Routes */}
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="mobiles" element={<Mobiles />} />
-            <Route path="mobiles/:id" element={<MobileDetails />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="about" element={<About />} />
-            <Route path="orders" element={<Orders />} />
-            <Route path="cart" element={<Cart />} />
-            <Route path="checkout" element={<Checkout />} />
-          </Route>
-          
-          {/* Auth Routes */}
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="reset-password" element={<ForgotPassword />} />
-          
-          {/* Admin Routes */}
-          <Route path="admin" element={<AdminLayout />}>
-            <Route index element={<Dashboard/>} />
-            <Route path="users" element={<Users/>} />
-            <Route path="mobiles" element={<AdminMobiles />} />
-            <Route path="orders" element={<AdminOrders />} />
-          </Route>
-          
-          {/* Catch-all route */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <Toaster position="top-right" />
+      <GoogleOAuthProvider clientId={client_ID}>
+        <BrowserRouter>
+          <Routes>
+            {/* User Routes */}
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="mobiles" element={<Mobiles />} />
+              <Route path="mobiles/:id" element={<MobileDetails />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="about" element={<About />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="cart" element={<Cart />} />
+              <Route path="checkout" element={<Checkout />} />
+            </Route>
+
+            {/* Auth Routes */}
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="reset-password" element={<ForgotPassword />} />
+
+            {/* Admin Routes */}
+            <Route path="admin" element={<AdminLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="users" element={<Users />} />
+              <Route path="mobiles" element={<AdminMobiles />} />
+              <Route path="orders" element={<AdminOrders />} />
+            </Route>
+
+            {/* Catch-all route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </GoogleOAuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

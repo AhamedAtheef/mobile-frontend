@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/inputs";
@@ -31,6 +31,13 @@ const Checkout = () => {
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+
+useEffect(() => {
+  if (!token) {
+    toast.error("Please login to checkout");
+    navigate("/login");
+  }
+}, [token, navigate]);
 
   // ✅ Shipping form states
   const [firstName, setFirstName] = useState("");
@@ -110,6 +117,7 @@ const Checkout = () => {
 
       toast.success(res.data.message || "Order placed!");
       clearCart();
+      navigate("/");
       console.log(res.data);
     } catch (err) {
       toast.error("Error placing order");
@@ -134,7 +142,7 @@ const Checkout = () => {
           <h1 className="text-3xl md:text-4xl font-bold text-green-500 mb-2">Checkout</h1>
 
           {/* Steps */}
-          <div className="flex items-center space-x-4 mt-6">
+          <div className="hidden md:flex items-center space-x-4 mt-6">
             {[
               { number: 1, name: "Shipping" },
               { number: 2, name: "Payment" },
@@ -349,13 +357,13 @@ const Checkout = () => {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {cartItems.map((item) => (
-                      <div key={item.productid} className="flex items-center space-x-4">
-                        <img src={item.image} className="w-16 h-16 rounded-lg" />
+                      <div key={item.productid} className="flex items-center gap-[12px] md:gap-0 space-x-4">
+                        <img src={item.image} className="w-15 h-12 md:w-16 md:h-16 rounded-lg" />
                         <div className="flex-1">
                           <p className="font-medium">{item.name}</p>
-                          <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
+                          <p className="text-sm text-muted-foreground flex gap-[5px] text-center ">Qty: <span>{item.quantity}</span></p>
                         </div>
-                        <p className="font-semibold">
+                        <p className="font-semibold ">
                           <span className="text-muted-foreground">Item Price:- </span> Rs.{item.price}
                         </p>
                       </div>
