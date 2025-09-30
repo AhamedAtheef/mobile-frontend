@@ -37,6 +37,7 @@ const ForgotPassword = () => {
             setLoading(false);
         } catch (error: any) {
             toast.error(error.response?.data?.message || "Failed to send OTP");
+            console.log(error);
             setLoading(false);
         }
     };
